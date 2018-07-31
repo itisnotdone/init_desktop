@@ -256,7 +256,7 @@ bash 'add_localhost_as_a_remote' do
   user main_user
   group main_user
   code <<-EOH
-    lxc remote add #{node['init_desktop']['lxd']['name']} localhost \
+    sudo lxc remote add #{node['init_desktop']['lxd']['name']} localhost \
     --accept-certificate \
     --password=#{node['init_desktop']['lxd']['password']}
     EOH
@@ -269,7 +269,7 @@ bash "download_image_of_#{image['local_alias']}" do
     user main_user
     group main_user
     code <<-EOH
-      lxc image --debug --verbose copy #{image['remote']}:#{image['name']} \
+      sudo lxc image --debug --verbose copy #{image['remote']}:#{image['name']} \
       local: --alias #{image['local_alias']} --public --auto-update
       EOH
     not_if "lxc image list | grep #{image['local_alias']}"
