@@ -1,0 +1,41 @@
+---
+driver:
+  name: gogetkitchen
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+  install_strategy: once
+  product_name: chef  # 'product_name' must be set when using 'download_url'
+  # https://packages.chef.io/files/stable/chef/14.3.37/ubuntu/18.04/chef_14.3.37-1_amd64.deb
+  download_url: https://def-nexus.default.don/repository/chef-apt/files/stable/chef/14.3.37/ubuntu/18.04/chef_14.3.37-1_amd64.deb
+  # product_name: chefdk  # 'product_name' must be set when using 'download_url'
+  # # https://packages.chef.io/files/stable/chefdk/3.1.0/ubuntu/18.04/chefdk_3.1.0-1_amd64.deb
+  # download_url: https://def-nexus.default.don/repository/chef-apt/files/stable/chefdk/3.1.0/ubuntu/18.04/chefdk_3.1.0-1_amd64.deb
+
+transport:
+  name: sftp
+  ssh_key: <%= Dir.home + '/.ssh/id_rsa' %>
+
+verifier:
+  name: inspec
+
+platforms:
+  # - name: lxc
+  #   driver:
+  #     provider: lxd
+  #     alias: ubuntu-16.04-chef
+  - name: kvm
+    driver:
+      provider: kvm
+      distro: bionic
+      spec: ceph
+
+suites:
+  - name: init_desktop
+    verifier:
+      inspec_tests:
+        - test/integration/default

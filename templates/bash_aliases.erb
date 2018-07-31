@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# to use embedded ruby as system wide ruby
+eval "$(chef shell-init bash)"
+
+# GOPATH
+export GOPATH="$HOME"/go
+export GOBIN="$HOME"/go/bin
+export PATH="$PATH":"$GOBIN":/usr/lib/go-1.10/bin
