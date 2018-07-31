@@ -60,7 +60,7 @@ default['init_desktop']['lxd'] = {
   'network_address' => '0.0.0.0',
   'network_port' => '8443',
   'storage_backend' => 'zfs',
-  'storage_pool' => 'p1/lxc',
+  'storage_pool' => 'pssd/lxc',
   'password' => 'password',
 }
 

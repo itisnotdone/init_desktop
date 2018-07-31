@@ -2,7 +2,7 @@
 # %s/\['dev'\]/\['prod'\]/g
 
 # to generate encrypted password
-# mkpasswd -m sha-512 -S onmysalt
+# mkpasswd -m sha-512 -S ohmysalt
 
 default['init_desktop']['dev']['users'] = [
   {

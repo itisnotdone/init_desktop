@@ -14,20 +14,20 @@ apt_repository 'google' do
   action :add
 end
 
-# chef apt repo
-apt_repository 'chef' do
-  uri node['init_desktop']['chef']['apt']['url']
-  arch 'amd64'
-  distribution 'bionic'
-  components ['main']
-  key 'https://packages.chef.io/chef.asc'
-  action :add
-end
+#	# chef apt repo
+#	apt_repository 'chef' do
+#	  uri node['init_desktop']['chef']['apt']['url']
+#	  arch 'amd64'
+#	  distribution 'bionic'
+#	  components ['main']
+#	  key 'https://packages.chef.io/chef.asc'
+#	  action :add
+#	end
 
 apt_update 'update'
 
-# for development
-apt_package 'chefdk'
+#	# for development
+#	apt_package 'chefdk'
 
 apt_package [
   'git',
@@ -206,25 +206,25 @@ node['init_desktop']['golang']['projects'].each do |pjt|
   end
 end
 
-node['init_desktop']['zpool'].each do |pool|
-  bash 'configure_zpool' do
-    code <<-EOH
-      zpool create -f -o ashift=12 #{pool['name']} #{pool['volume']}
-      EOH
-    not_if "zpool list | egrep '^#{pool['name']}'"
-    not_if "zpool import | egrep '^#{pool['name']}'"
-  end
-
-  pool['zfs'].each do |zfs|
-    bash 'configure_zfs' do
-      code <<-EOH
-        zfs create #{pool['name']}/#{zfs['name']}
-        zfs set compression=#{zfs['compression']} #{pool['name']}/#{zfs['name']}
-        EOH
-      not_if "zfs list | egrep '^#{pool['name']}/#{zfs['name']}'"
-    end
-  end
-end
+#	node['init_desktop']['zpool'].each do |pool|
+#	  bash 'configure_zpool' do
+#	    code <<-EOH
+#	      zpool create -f -o ashift=12 #{pool['name']} #{pool['volume']}
+#	      EOH
+#	    not_if "zpool list | egrep '^#{pool['name']}'"
+#	    not_if "zpool import | egrep '^#{pool['name']}'"
+#	  end
+#	
+#	  pool['zfs'].each do |zfs|
+#	    bash 'configure_zfs' do
+#	      code <<-EOH
+#	        zfs create #{pool['name']}/#{zfs['name']}
+#	        zfs set compression=#{zfs['compression']} #{pool['name']}/#{zfs['name']}
+#	        EOH
+#	      not_if "zfs list | egrep '^#{pool['name']}/#{zfs['name']}'"
+#	    end
+#	  end
+#	end
 
 bash 'configure_lxd' do
   cwd "/home/#{main_user}"
@@ -309,15 +309,6 @@ bash 'extract_tar_gz' do
   not_if { ::File.exist?("/home/#{main_user}/Downloads/ApacheDirectoryStudio") }
 end
 
-# sometimes, things get messy
-node['init_desktop']['users'].each do |u|
-  bash "chown_for_#{u['id']}" do
-    cwd "/home/#{u['id']}"
-    code <<-EOH
-      chown -R #{u['id']}.#{u['id']} .
-      EOH
-  end
-end
 
 template '/etc/network/interfaces' do
   source 'interfaces.erb'
@@ -349,3 +340,12 @@ template '/etc/rc.local' do
   mode '0755'
 end
 
+# sometimes, things get messy
+node['init_desktop']['users'].each do |u|
+  bash "chown_for_#{u['id']}" do
+    cwd "/home/#{u['id']}"
+    code <<-EOH
+      chown -R #{u['id']}.#{u['id']} .
+      EOH
+  end
+end
