@@ -50,6 +50,10 @@ apt_package [
   'dconf-editor',
 ]
 
+file '/etc/apt/sources.list.d/google.list' do
+  action :delete
+end
+
 # for virtual network
 apt_package [
   'bridge-utils',
