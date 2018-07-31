@@ -330,18 +330,25 @@ end
 
 apt_package 'dnsmasq'
 
-bash 'disable_network_manager' do
-  code <<-EOH
-    sed -i 's #\(net.ipv4.ip_forward=1\) \1 ' /etc/sysctl.conf
-    sysctl -p
-    EOH
-end
+#   bash 'configure_ip_forward' do
+#     code <<-EOH
+#       sed -i 's #\(net.ipv4.ip_forward=1\) \1 ' /etc/sysctl.conf
+#       sysctl -p
+#       EOH
+#   end
 
 template '/etc/rc.local' do
   source 'rc.local.erb'
   owner 'root'
   group 'root'
   mode '0755'
+end
+
+template '/etc/sysctl.conf' do
+  source 'sysctl.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
 end
 
 # sometimes, things get messy

@@ -4,8 +4,8 @@ iface lo inet loopback
   dns-nameservers <%= node['init_desktop']['network_config']['dns'] %>
   #dns-domain default.don
 
-auto node['init_desktop']['network_config']['gate_dev']
-iface node['init_desktop']['network_config']['gate_dev'] inet dhcp
+auto <%= node['init_desktop']['network_config']['gate_dev'] %>
+iface <%= node['init_desktop']['network_config']['gate_dev'] %> inet dhcp
 
 source /etc/network/interfaces.d/*.cfg
 
