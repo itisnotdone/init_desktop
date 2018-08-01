@@ -351,6 +351,13 @@ template '/etc/sysctl.conf' do
   mode '0644'
 end
 
+template '/etc/ssh/ssh_config' do
+  source 'ssh_config.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
 # sometimes, things get messy
 node['init_desktop']['users'].each do |u|
   bash "chown_for_#{u['id']}" do
