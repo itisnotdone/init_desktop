@@ -30,6 +30,7 @@ apt_update 'update'
 #	apt_package 'chefdk'
 
 apt_package [
+  'ssh',
   'git',
   'vim',
   'golang-1.10-go',
